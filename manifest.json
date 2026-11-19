@@ -1,0 +1,10 @@
+{
+  "name":"교특회계 실감나게 - 집행 체크리스트",
+  "short_name":"교특회계 CHECK",
+  "start_url":"./index.html",
+  "display":"standalone",
+  "background_color":"#f6f9ff",
+  "theme_color":"#5f7cff",
+  "lang":"ko-KR",
+  "description":"교육행정연구회 교특회계 집행 전 체크리스트"
+}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#5f7cff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="교특회계 실감나게">
+<link rel="manifest" href="manifest.json">
+<title>교특집행 CHECK</title>
+<style>
+*{box-sizing:border-box}
+:root{--ink:#203047;--muted:#718096;--line:#e5eaf3;--blue:#4f7cff;--sky:#e9f2ff;--mint:#e8fbf4;--green:#18a879;--coral:#ff6f61;--yellow:#fff5c7;--purple:#8b6cff}
+body{margin:0;background:linear-gradient(180deg,#f8fbff 0%,#fff 55%,#f8fbff 100%);color:var(--ink);font-family:"Noto Sans KR","Malgun Gothic",sans-serif}
+button,input{font-family:inherit}
+.wrap{max-width:1180px;margin:auto}
+header{position:relative;overflow:hidden;background:linear-gradient(135deg,#657cff 0%,#59b8dc 48%,#6bd5ae 100%);color:#fff;padding:30px 20px 28px}
+header:before,header:after{content:"";position:absolute;border-radius:50%;background:#ffffff22;pointer-events:none}header:before{width:380px;height:380px;right:-125px;top:-245px}header:after{width:210px;height:210px;left:-110px;bottom:-145px}
+.hero{position:relative;z-index:1}.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:26px;align-items:center}.brand{font-size:30px;font-weight:900;letter-spacing:-1px;display:flex;align-items:center;gap:10px}.brand-badge{font-size:12px;font-weight:800;background:#ffffff33;border:1px solid #ffffff66;padding:6px 10px;border-radius:999px;letter-spacing:0}.sub{margin-top:9px;font-size:14px;opacity:.96;line-height:1.6}.search{margin-top:20px;width:100%;padding:16px 18px;border:0;border-radius:15px;font-size:15px;background:#fff;box-shadow:0 10px 30px #3558a522;outline:none}.search:focus{box-shadow:0 0 0 4px #ffffff55,0 10px 30px #3558a522}.hero-art{position:relative;min-height:145px;display:flex;align-items:center;justify-content:center}.art-board{width:245px;height:145px;background:#ffffffea;border:1px solid #ffffff80;border-radius:24px;box-shadow:0 18px 40px #3558a52c;transform:rotate(2deg);position:relative;padding:17px;color:#3c5270}.art-board:before{content:"";position:absolute;width:74px;height:9px;border-radius:99px;background:#dce7ff;top:15px;right:16px}.art-title{font-weight:900;font-size:13px;margin-bottom:13px}.art-row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:11px;font-weight:800}.art-check{width:20px;height:20px;border-radius:7px;display:grid;place-items:center;background:#e9f2ff;color:#5572d5;font-size:12px}.art-row:nth-child(3) .art-check{background:#e8fbf4;color:#18a879}.art-row:nth-child(4) .art-check{background:#fff0ed;color:#e25d50}.float-icon{position:absolute;display:grid;place-items:center;width:43px;height:43px;border-radius:15px;background:#ffffffdd;box-shadow:0 10px 25px #3558a52c;font-size:21px}.float-icon.one{left:7px;top:8px;transform:rotate(-8deg)}.float-icon.two{right:5px;bottom:5px;transform:rotate(8deg)}.float-icon.three{right:34px;top:-2px}.section-guide{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 17px}.guide-chip{display:flex;align-items:center;gap:7px;padding:9px 12px;background:#fff;border:1px solid #e3eaf5;border-radius:13px;box-shadow:0 5px 16px #6b86b50d;color:#53657d;font-size:12px;font-weight:800}.guide-chip b{color:#334766}
+main{padding:26px 20px 70px}.intro{display:flex;justify-content:space-between;gap:16px;align-items:end;margin-bottom:15px}.intro h1{font-size:22px;margin:0;letter-spacing:-.5px}.intro p{margin:6px 0 0;color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}.filter{cursor:pointer;border:1px solid var(--line);background:#fff;color:#43536b;border-radius:14px;padding:10px 13px;font-weight:800;box-shadow:0 3px 12px #6f8bbd0c;transition:.15s}.filter:hover{transform:translateY(-1px);border-color:#b9c8ff;box-shadow:0 6px 18px #6f8bbd20}.filter.active{background:linear-gradient(135deg,#5f7cff,#6b9cff);color:#fff;border-color:transparent;box-shadow:0 8px 20px #5f7cff3d}.filter .icon{margin-right:5px}.filter .count{font-size:11px;opacity:.75;margin-left:3px}
+.stats{color:var(--muted);font-size:13px;margin-left:auto;padding:9px}.selection{display:inline-flex;align-items:center;gap:7px;background:#eef4ff;color:#4b66bd;border-radius:999px;padding:7px 11px;font-weight:800;font-size:12px;margin-bottom:13px}
+.summary{display:none;background:linear-gradient(135deg,#fff 0%,#f8fbff 100%);border:1px solid #dfe7f7;border-radius:20px;padding:20px;margin-bottom:19px;box-shadow:0 10px 28px #6b86b51a}.summary.show{display:block}.summary-top{display:flex;justify-content:space-between;align-items:center;gap:15px}.summary h2{margin:0;font-size:17px}.score{font-size:34px;font-weight:950;color:#5276ef}.score small{font-size:13px;color:var(--muted);font-weight:700}.progress{height:11px;background:#edf2f8;border-radius:99px;overflow:hidden;margin:14px 0}.progress>div{height:100%;background:linear-gradient(90deg,#ff8a7d 0%,#ffd36b 48%,#51d7a6 100%);width:0;transition:.3s}.message{font-weight:850;color:#40516a;display:flex;align-items:center;gap:7px}.metric{display:inline-flex;align-items:center;gap:5px;margin:8px 7px 0 0;padding:8px 11px;border-radius:11px;background:#f1f5fa;color:#526277;font-size:12px}.metric b{color:#203047}
+.card{position:relative;background:#fff;border:1px solid var(--line);border-radius:19px;margin:13px 0;padding:20px 20px 18px;box-shadow:0 5px 18px #6b86b512;transition:.18s}.card:hover{transform:translateY(-2px);box-shadow:0 10px 28px #6b86b520;border-color:#d5def5}.card:has(.answer.sel.yes){border-color:#ffc4bd;box-shadow:0 8px 25px #ff887a20}.card:has(.answer.sel.no){border-color:#a9e6d0;box-shadow:0 8px 25px #49c79b18}.card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.num{width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:#eef3ff;color:#5572d5;font-weight:900;font-size:12px;flex:none}.question{font-size:16px;font-weight:800;line-height:1.65;margin:1px 0 15px;flex:1}.result-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:6px 9px;border-radius:999px;background:#f3f6fb;color:#68778c;margin-bottom:12px}.actions{display:flex;gap:10px;flex-wrap:wrap}.answer{cursor:pointer;padding:11px 17px;border-radius:12px;font-weight:900;background:#fff;transition:.15s}.answer.yes{color:#d94e43;border:1px solid #ffb8b0;background:#fff8f7}.answer.no{color:#168763;border:1px solid #a8e3cf;background:#f5fffa}.answer:hover{transform:translateY(-1px)}.answer.sel.yes{background:linear-gradient(135deg,#ff6f61,#ff8f7f);color:#fff;border-color:transparent;box-shadow:0 7px 18px #ff6f6140;outline:3px solid #ffe0dc}.answer.sel.no{background:linear-gradient(135deg,#18a879,#45c99d);color:#fff;border-color:transparent;box-shadow:0 7px 18px #18a87935;outline:3px solid #d8f7eb}.feedback{margin-top:15px;padding:15px 16px;border-radius:14px;background:#f7faff;border:1px solid #e2e9f8;display:none}.feedback.show{display:block}.feedback strong{display:block;margin-bottom:6px}.feedback.yes{background:#fff8f7;border-color:#ffd9d4}.feedback.no{background:#f5fffa;border-color:#d8f3e8}.detail{color:#65748a;font-size:13px;line-height:1.65}.result-detail{margin-top:17px;padding:17px 18px;border-radius:16px;background:linear-gradient(135deg,#f8fbff 0%,#f7faff 100%);border:1px solid #dfe7f7}.result-detail h3{margin:0 0 9px;font-size:15px}.result-detail p{margin:0;color:#53657d;font-size:13px;line-height:1.9;word-break:keep-all}.result-detail p+p{margin-top:8px}.empty{text-align:center;padding:55px 20px;background:#fff;border-radius:18px;color:var(--muted);border:1px dashed #ccd7e8}.empty-icon{font-size:34px;margin-bottom:7px}mark{background:#fff0a8;padding:0 2px;border-radius:3px}
+.footer-note{margin-top:24px;text-align:center;color:#8b98aa;font-size:12px}.tip{display:inline-flex;gap:7px;align-items:center;background:#fff8df;color:#7b6724;border:1px solid #f5e6ae;border-radius:12px;padding:9px 12px;font-weight:700}
+@media(max-width:600px){.hero-grid{grid-template-columns:1fr}.hero-art{display:none}.brand{font-size:24px}.brand-badge{font-size:10px}.stats{width:100%;margin-left:0}.intro{display:block}.score{font-size:27px}.card{padding:17px}.question{font-size:15px}.filter{padding:9px 11px}}
+
+/* Mobile web-app polish */
+html{scroll-behavior:smooth} body{-webkit-tap-highlight-color:transparent}button{touch-action:manipulation}
+.mobile-top{display:none}.mobile-actions{display:none}.install-banner{display:none}
+@media(max-width:720px){
+ body{padding-bottom:76px;background:#f6f9ff}
+ header{padding:18px 16px 20px;border-radius:0 0 28px 28px;box-shadow:0 12px 35px #3857a326}
+ .hero-grid{display:block}.hero-art{display:none}.brand{font-size:22px;line-height:1.25}.brand-badge{font-size:9px;padding:5px 8px}.sub{font-size:12px;line-height:1.55;margin-top:7px}
+ .search{margin-top:14px;padding:14px 15px;border-radius:14px;font-size:14px;min-height:48px}
+ main{padding:18px 14px 35px}.intro{margin-bottom:12px}.intro h1{font-size:19px}.intro p{font-size:12px;line-height:1.55}
+ .section-guide{gap:6px;margin-bottom:12px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px;scrollbar-width:none}.section-guide::-webkit-scrollbar{display:none}.guide-chip{white-space:nowrap;font-size:10px;padding:8px 10px;border-radius:11px}
+ .toolbar#filters{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:7px;padding:2px 2px 7px;margin:0 -2px 10px;scrollbar-width:none}.toolbar#filters::-webkit-scrollbar{display:none}.filter{flex:0 0 auto;padding:9px 11px;border-radius:12px;font-size:12px;box-shadow:none}
+ .selection{font-size:11px;padding:7px 10px;margin-bottom:10px}.summary{border-radius:18px;padding:16px;margin-bottom:13px}.summary-top{align-items:flex-end}.summary h2{font-size:15px}.score{font-size:28px}.progress{height:9px;margin:11px 0}.message{font-size:12px;line-height:1.5}.metric{font-size:10px;padding:7px 9px;margin:6px 4px 0 0}.result-detail{padding:14px;border-radius:14px;margin-top:13px}.result-detail h3{font-size:14px}.result-detail p{font-size:12px;line-height:1.8}
+ .card{margin:10px 0;padding:15px;border-radius:17px;box-shadow:0 4px 15px #6b86b50e}.card-top{gap:9px}.num{width:29px;height:29px;border-radius:10px;font-size:11px}.question{font-size:14px;line-height:1.65;margin-bottom:12px}.actions{gap:7px}.answer{flex:1;min-height:46px;padding:10px 8px;border-radius:12px;font-size:12px}.feedback{margin-top:11px;padding:12px;border-radius:12px}.feedback strong{font-size:12px}.detail{font-size:11px;line-height:1.6}
+ .stats{font-size:11px;padding:4px 0;margin:0 0 4px}.footer-note{margin-top:17px}.tip{font-size:10px;line-height:1.45;padding:8px 10px}
+ .mobile-actions{display:flex;position:fixed;z-index:50;left:0;right:0;bottom:0;padding:9px max(12px,env(safe-area-inset-left)) calc(9px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-right));background:#ffffffee;backdrop-filter:blur(14px);border-top:1px solid #dfe7f3;gap:8px;box-shadow:0 -8px 25px #39537d18}.mobile-actions button{flex:1;border:1px solid #dfe7f3;background:#fff;border-radius:13px;min-height:46px;font-weight:900;color:#4d6078;font-size:11px}.mobile-actions button.primary{background:linear-gradient(135deg,#5f7cff,#6b9cff);color:#fff;border-color:transparent}.install-banner{position:fixed;z-index:60;left:12px;right:12px;bottom:76px;background:#203047;color:#fff;border-radius:16px;padding:12px 13px;box-shadow:0 14px 35px #20304745;align-items:center;gap:10px;font-size:11px}.install-banner.show{display:flex}.install-banner .txt{flex:1;line-height:1.45}.install-banner button{border:0;border-radius:10px;background:#fff;color:#203047;font-weight:900;padding:8px 10px}.install-banner .close{background:transparent;color:#fff;padding:4px}
+}
+@media(min-width:721px){.mobile-actions,.install-banner{display:none!important}}
+</style>
+</head>
+<body>
+<div class="mobile-top"><span>✨ 교특회계 실감나게</span><span>CHECK</span></div>
+<header><div class="wrap hero">
+<div class="hero-grid">
+  <div>
+    <div class="brand">🌈 교특회계 실감나게 <span class="brand-badge">CHECK LIST</span></div>
+    <div class="sub">교육행정연구회 · 교특회계 집행 전, 필요한 항목만 골라 쉽고 빠르게 점검해 보세요.</div>
+    <input id="search" class="search" placeholder="🔎 체크리스트 검색 · 금액 · 계약 · 지출 등">
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="float-icon one">🔎</div><div class="float-icon two">🎯</div><div class="float-icon three">✨</div>
+    <div class="art-board">
+      <div class="art-title">📋 집행 전 CHECK</div>
+      <div class="art-row"><span class="art-check">✓</span> 계약·공사 기준 확인</div>
+      <div class="art-row"><span class="art-check">✓</span> 물품·용역 절차 점검</div>
+      <div class="art-row"><span class="art-check">✓</span> 지출·증빙 꼼꼼히 확인</div>
+    </div>
+  </div>
+</div>
+</div></header>
+<main class="wrap">
+<div class="intro"><div><h1>🧾 교특회계 집행 체크리스트</h1><p>아래 핵심어를 클릭하면 <b>해당 분야의 체크리스트만</b> 표시됩니다.</p></div></div>
+<div class="section-guide"><span class="guide-chip">🔎 <b>1. 핵심어 선택</b> 필요한 분야를 골라요</span><span class="guide-chip">☑️ <b>2. 항목 점검</b> 해당됨·해당 없음 선택</span><span class="guide-chip">🎯 <b>3. 결과 확인</b> 미점검 기준 점수 확인</span></div>
+<div class="toolbar" id="filters"></div>
+<div id="selection" class="selection">✨ 현재 선택: 전체 체크리스트</div>
+<div id="summary" class="summary">
+<div class="summary-top"><h2>📊 점검 결과</h2><div class="score"><span id="score">0</span><small> / 100점</small></div></div>
+<div class="progress"><div id="progress"></div></div>
+<div id="message" class="message"></div>
+<div id="metrics"></div>
+<div id="resultDetail" class="result-detail"></div>
+</div>
+<div class="toolbar"><div id="stats" class="stats"></div></div>
+<div id="list"></div>
+<div class="footer-note"><span class="tip">💡 ‘해당됨’은 확인이 필요한 항목, ‘해당 없음’은 현재 기준에 해당하지 않는 항목입니다.</span><br><span style="display:inline-block;margin-top:8px;font-size:10px;color:#9aa6b7">📱 모바일에서는 브라우저 메뉴의 ‘홈 화면에 추가’를 이용하면 앱처럼 사용할 수 있습니다.</span></div>
+</main>
+<div class="mobile-actions">
+ <button onclick="scrollToTop()">⬆️ 위로</button>
+ <button class="primary" onclick="scrollToSummary()">📊 결과 보기</button>
+ <button onclick="shareApp()">↗️ 공유</button>
+</div>
+<div id="installBanner" class="install-banner"><div class="txt">📱 홈 화면에 추가하면 앱처럼 바로 열 수 있어요.</div><button onclick="installApp()">설치</button><button class="close" onclick="closeInstall()">×</button></div>
+
+<script>
+const DATA=[{"keywords":["공사","계약"],"check":"추정금액 5억원(전문공사 3억원) 이상인가?","result":"계약심사 대상","detail":""},{"keywords":["공사","계약"],"check":"계약금액 20억원 이상인 공사면서, 1회 설계변경이 계약금액의 10%이상 증액됐는가?","result":"계약심사 대상","detail":""},{"keywords":["용역","계약"],"check":"추정금액 7천만원 이상 용역인가?","result":"계약심사 대상","detail":""},{"keywords":["물품","계약"],"check":"추정금액 2천만원 이상 물품인가?","result":"계약심사 대상","detail":""},{"keywords":["공사","계약"],"check":"종합공사 추정가격 10억원 이상인가?","result":"일상감사 대상","detail":""},{"keywords":["공사","계약"],"check":"전문공사 추정가격 5억원 이상인가?","result":"일상감사 대상","detail":""},{"keywords":["공사","계약"],"check":"협상에 의한 계약으로 하는 공사인가?","result":"일상감사 대상","detail":""},{"keywords":["용역","계약"],"check":"추정가격 3억원 이상 용역인가?","result":"일상감사 대상","detail":""},{"keywords":["물품","계약"],"check":"추정금액 1억원 이상 물품인가?","result":"일상감사 대상","detail":""},{"keywords":["공사","용역","물품","계약"],"check":"법령에서 정한 금액 이상의 지명입찰계약 및 수의계약인가?","result":"일상감사 대상","detail":""},{"keywords":["공사","용역","물품","계약"],"check":"설계변경 등으로 최종 추정가격이 일상감사 대상금액을 초과하게 된 계약인가?","result":"일상감사 대상","detail":""},{"keywords":["공사","용역","물품","계약"],"check":"설계 변경 등으로 증액이 직전 일상감사 받은 계약금액의 10% 이상에 해당하는 계약인가?","result":"일상감사 대상","detail":""},{"keywords":["물품","물품선정위원회"],"check":"1회 납품 총액 기준으로 추정가격 2천만 원 초과인가?","result":"물품선정위원회 실시 대상","detail":""},{"keywords":["물품","물품선정위원회"],"check":"수요자 중심 5인 미만으로 구성됐는가?","result":"감사 대상","detail":"5인 이상 구성 필요"},{"keywords":["물품","물품선정위원회"],"check":"물품선정위원회에 기관장, 업무담당이 포함됐는가?","result":"감사 대상","detail":"제외"},{"keywords":["물품","물품선정위원회"],"check":"방송장비, 공기순환기와 부속물품을 구매하는가?","result":"물품선정위원회 추첨제 대상","detail":""},{"keywords":["물품","물품선정위원회"],"check":"물품선정위원회 추첨제의 구성은 내부위원, 업무와 유관한 인사로 위촉했는가?","result":"감사 대상","detail":"외부위원, 업무와 무관한 인사 위촉"},{"keywords":["공사","계약"],"check":"추정가격 2천만원 이하의 공사인가?","result":"1인 견적 제출 수의계약","detail":""},{"keywords":["공사","계약"],"check":"종합공사 추정가격  4억원 이하의 공사인가?","result":"2인 이상 견적 제출(소액수의)","detail":""},{"keywords":["공사","계약"],"check":"전문공사 추정가격  2억원 이하의 공사인가?","result":"2인 이상 견적 제출(소액수의)","detail":""},{"keywords":["공사","계약"],"check":"전기, 통신, 소방 추정가격  1억 6천만원 이하의 공사인가?","result":"2인 이상 견적 제출(소액수의)","detail":""},{"keywords":["물품","용역","계약"],"check":"추정가격 2천만원 이하의 물품, 용역인가?","result":"1인 견적 제출 수의계약","detail":""},{"keywords":["물품","용역","계약"],"check":"추정가격 5천만원 이하이면서 여성, 장애인 기업, 사회적, 자활기업 등 취약계층 고용기업 물품, 용역인가?","result":"1인 견적 제출 수의계약","detail":""},{"keywords":["물품","용역","계약"],"check":"추정가격 2천만원 초과 1억원 이하이면서 소기업, 소상공인, 학술연구, 원가계산 등의 용역, 물품인가?","result":"2인 이상 견적 제출(소액수의)","detail":""},{"keywords":["공사","계약"],"check":"동일 구조물 공사, 단일 공사인가?","result":"분할계약 대상","detail":""},{"keywords":["공사","계약"],"check":"전기, 통신, 소방 공사가 각각 합쳐져 있는가?","result":"분할계약 대상(각각 따로 계약)","detail":""},{"keywords":["용역","계약"],"check":"100톤 이상 폐기물처리용역이 공사 등에 발주되어 있는가?","result":"분할계약 대상","detail":""},{"keywords":["예산","지출"],"check":"작년도 여비를 올해 지급했는가?","result":"감사 대상","detail":"회계연도 독립의 원칙에 의거, 당해년도 지급"},{"keywords":["지출","물품"],"check":"물품검사검수서를 제출했는가?","result":"제출 필요","detail":""},{"keywords":["지출"],"check":"대금지급 요청 시, 대금청구일로부터 7일 이후 지출했는가?","result":"감사 대상","detail":"7일 이내 지출"},{"keywords":["지출","업무추진비"],"check":"심야(23시 이후)와 사용자의 자택 근처 등 통상적인 업무 추진과 관련이 적은 시간과 장소에서 사용했는가?","result":"감사 대상","detail":"사용 불가"},{"keywords":["지출","업무추진비"],"check":"공직자가 아닌 대상에게 1인 1회당 4만원 초과의 범위에서 집행했는가?","result":"감사 대상","detail":"1인 1회당 4만원 이하 범위에서 지출"},{"keywords":["지출","업무추진비"],"check":"공직자에게 1인 1회당 접대비 3만원 초과, 기념품 및 특산품은 5만원 초과의 범위에서 집행했는가?","result":"감사 대상","detail":"접대비는 3만원 이하, 기념품 및 특산품은 5만원 이하 지급"},{"keywords":["지출","업무추진비"],"check":"증빙서류에 집행목적, 일시, 장소, 집행대상이 작성되지 않았는가?","result":"작성 필요","detail":"증빙서류에는 집행목적, 일시, 장소, 집행대상 작성 필수"},{"keywords":["지출","업무추진비"],"check":"1건당 50만원 이상의 경우에 주된 상대방의 소속 또는 주소 및 성명을 증빙서류에 기재하지 않았는가?","result":"작성 필요","detail":"1건당 50만원 이상의 경우, 주된 상대방의 소속 또는 주소 및 성명을 증빙서류에 기재 필수"},{"keywords":["지출","강사수당"],"check":"수강 인원수에 따라 강사수당을 가산 시, 증빙자료(출석부 등)를 제출하지 않았는가?","result":"제출 필요","detail":"수강 인원수에 따라 강사수당을 가산 시, 증빙자료(출석부 등)를 제출 필수"},{"keywords":["지출","강사수당"],"check":"원고가 중복하여 사용되었음에도 동일 금액으로 원고료를 지급하였는가?","result":"확인 필요","detail":"원고가 중복하여 사용될 경우, 원고료 감액 필요"}];
+let active="전체";
+const state={};
+const iconMap={"전체":"✨","공사":"🏗️","계약":"📝","용역":"🧑‍💻","물품":"📦","물품선정위원회":"👥","예산":"💰","지출":"💳","업무추진비":"🍽️","강사수당":"🎓"};
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function hl(s,q){if(!q)return esc(s);let ts=q.trim().split(/\s+/).filter(Boolean).map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));return esc(s).replace(new RegExp("("+ts.join("|")+")","gi"),"<mark>$1</mark>");}
+DATA.splice(0,1);
+const keys=[...new Set(DATA.flatMap(x=>x.keywords))];
+function filters(){
+ let f=document.getElementById("filters");f.innerHTML="";
+ [["전체",DATA.length],...keys.map(k=>[k,DATA.filter(x=>x.keywords.includes(k)).length])].forEach(([k,n])=>{
+  let b=document.createElement("button");b.className="filter "+(active===k?"active":"");b.innerHTML=`<span class="icon">${iconMap[k]||"🔹"}</span>${esc(k)} <span class="count">${n}</span>`;
+  b.onclick=()=>{active=k;filters();render();window.scrollTo({top:document.querySelector('main').offsetTop-10,behavior:'smooth'});};
+  f.appendChild(b);
+ });
+}
+function getVisible(){
+ let q=document.getElementById("search").value.trim().toLowerCase();
+ return DATA.map((x,i)=>({...x,i})).filter(x=>{
+  if(active!=="전체"&&!x.keywords.includes(active))return false;
+  if(!q)return true;
+  return q.split(/\s+/).every(t=>[...x.keywords,x.check,x.result,x.detail].join(" ").toLowerCase().includes(t));
+ });
+}
+function render(){
+ let q=document.getElementById("search").value.trim().toLowerCase();
+ let arr=getVisible();
+ document.getElementById("selection").innerHTML=`${iconMap[active]||"🔹"} 현재 선택: <b>${esc(active)}</b> · 이 분야 ${arr.length}건`;
+ document.getElementById("stats").textContent=`표시 ${arr.length}건 / 전체 ${DATA.length}건`;
+ let list=document.getElementById("list");
+ if(!arr.length){list.innerHTML='<div class="empty"><div class="empty-icon">🔍</div>검색 결과가 없습니다.<br><small>다른 핵심어나 검색어를 선택해 보세요.</small></div>';updateSummary(arr);return;}
+ list.innerHTML=arr.map((x,idx)=>`
+ <article class="card">
+  <div class="card-top"><div class="num">${idx+1}</div><div class="question">${hl(x.check,q)}</div></div>
+  <div class="actions">
+   <button class="answer yes ${state[x.i]==='yes'?'sel':''}" onclick="answer(${x.i},'yes')">🔴 해당됨</button>
+   <button class="answer no ${state[x.i]==='no'?'sel':''}" onclick="answer(${x.i},'no')">🟢 해당 없음</button>
+  </div>
+  <div class="feedback ${state[x.i]?'show':''} ${state[x.i]==='yes'?'yes':'no'}">
+   <strong>${state[x.i]==='yes'?'⚠️ 판단 결과: '+hl(x.result,q):'✅ 현재 항목에 해당하지 않습니다.'}</strong>
+   <div class="detail">${state[x.i]==='yes'?(x.detail?hl(x.detail,q):'해당되는 경우 관련 절차 및 기준을 추가로 확인해 주세요.'):'현재 점검 기준상 해당 없음으로 선택되었습니다.'}</div>
+  </div>
+ </article>`).join("");
+ updateSummary(arr);
+}
+function answer(i,v){state[i]=v;render();}
+function toSentence(text){
+ let s=String(text||"").trim();
+ if(!s)return "관련 절차 및 기준을 추가로 확인해 주세요.";
+ if(/[.!?。！？]$/.test(s))return s;
+ const rules=[
+  [/^([^,]+)\s*필요$/,"$1이 필요합니다."],
+  [/^([^,]+)\s*제외$/,"$1은 제외해야 합니다."],
+  [/^([^,]+)\s*사용 불가$/,"$1은 사용할 수 없습니다."],
+  [/^([^,]+)\s*감액 필요$/,"$1 감액이 필요합니다."],
+  [/^([^,]+)\s*위촉$/,"$1을 위촉해야 합니다."],
+  [/^([^,]+)\s*지출$/,"$1을 지출해야 합니다."],
+  [/^([^,]+)\s*지급$/,"$1을 지급해야 합니다."],
+  [/^([^,]+)\s*작성 필수$/,"$1 작성이 필수입니다."],
+  [/^([^,]+)\s*기재 필수$/,"$1 기재가 필수입니다."],
+  [/^([^,]+)\s*제출 필수$/,"$1 제출이 필수입니다."],
+  [/^([^,]+)\s*구성 필요$/,"$1로 구성할 필요가 있습니다."],
+  [/^([^,]+)\s*이내 지출$/,"$1 이내에 지출해야 합니다."]
+ ];
+ for(const [re,repl] of rules)if(re.test(s))return s.replace(re,repl);
+ if(s.includes(","))return s+"에 해당합니다.";
+ return s+"에 해당합니다.";
+}
+function updateSummary(arr){
+ let vals=arr.map(x=>state[x.i]).filter(Boolean);
+ let yes=vals.filter(v=>v==="yes").length,no=vals.filter(v=>v==="no").length,un=arr.length-vals.length;
+ let total=arr.length,score=total?Math.round(((total-un)/total)*100):0;
+ let s=document.getElementById("summary"),m=document.getElementById("metrics");
+ if(!total){s.classList.remove("show");return;}
+ s.classList.add("show");document.getElementById("score").textContent=score;document.getElementById("progress").style.width=score+"%";
+ let msg=score===100?"🎉 모든 항목을 꼼꼼하게 확인하셨습니다. 집행 전 점검이 아주 잘 이루어졌습니다!":score>=50?"🙂 조금만 더 확인해볼까요? 일부 항목을 다시 살펴보면 더욱 안전합니다.":"🔎 좀 더 꼼꼼히 확인해볼까요? 집행 전 주요 확인사항을 다시 점검해 주세요.";
+ document.getElementById("message").innerHTML=msg;
+ m.innerHTML=`<span class="metric">🔴 해당됨 <b>${yes}</b></span><span class="metric">🟢 해당 없음 <b>${no}</b></span><span class="metric">⚪ 미점검 <b>${un}</b></span>`;
+ let answered=arr.filter(x=>state[x.i]);
+ let detailBox=document.getElementById("resultDetail");
+ if(!answered.length){
+   detailBox.innerHTML=`<h3>📋 상세 점검 결과</h3><p>아직 선택한 항목이 없습니다. 각 항목의 <b>해당됨</b> 또는 <b>해당 없음</b>을 선택하면 점검 결과가 이곳에 정리됩니다.</p>`;
+ }else{
+   let paragraphs=answered.map(x=>{
+     if(state[x.i]==="yes"){
+       let tail=toSentence(x.detail ? x.detail : `해당되는 경우 ${x.result} 관련 절차 및 기준을 추가로 확인해 주세요.`);
+       return `「${esc(x.check)}」 항목은 <b>해당됨</b>으로 확인되었습니다. 따라서 <b>${esc(x.result)}</b>에 해당하며, ${esc(tail)}`;
+     }
+     return `「${esc(x.check)}」 항목은 <b>해당 없음</b>으로 확인되었습니다. 따라서 현재 점검 기준에서는 <b>${esc(x.result)}</b>에 해당하지 않는 것으로 판단됩니다.`;
+   });
+   detailBox.innerHTML=`<h3>📋 상세 점검 결과</h3><p>${paragraphs.join(" ")}</p>`;
+ }
+}
+
+let deferredInstallPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e; if(window.innerWidth<=720 && !localStorage.getItem('installDismissed')) document.getElementById('installBanner')?.classList.add('show');});
+async function installApp(){if(!deferredInstallPrompt)return; deferredInstallPrompt.prompt(); try{await deferredInstallPrompt.userChoice;}catch(e){} deferredInstallPrompt=null; closeInstall();}
+function closeInstall(){document.getElementById('installBanner')?.classList.remove('show');localStorage.setItem('installDismissed','1');}
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
+function scrollToSummary(){document.getElementById('summary')?.scrollIntoView({behavior:'smooth',block:'start'});}
+async function shareApp(){
+ const data={title:'교특회계 실감나게',text:'교특회계 집행 체크리스트를 확인해 보세요.',url:location.href};
+ if(navigator.share){try{await navigator.share(data);return;}catch(e){}}
+ try{await navigator.clipboard.writeText(location.href);alert('현재 페이지 주소가 복사되었습니다.');}catch(e){alert('주소: '+location.href);}
+}
+
+document.getElementById("search").addEventListener("input",render);
+filters();render();
+if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
+</script>
+</body></html>
